@@ -72,7 +72,8 @@ export default class RegExr extends EventDispatcher {
 		window.onbeforeunload = (e) => this.unsaved ? "You have unsaved changes." : null;
 		this.resetUnsaved();
 
-		setTimeout(() => this._initAds(), 100);
+		// TODO: make dependant on env var
+		//setTimeout(() => this._initAds(), 100);
 	}
 
 	_initAds() {
@@ -221,7 +222,7 @@ export default class RegExr extends EventDispatcher {
 		$.toggleClass(this.docEl, "tests-mode", this.text.mode === "tests");
 		this._change();
 	}
-	
+
 	_handleResult(result) {
 		this.result = this._processResult(result);
 		this.dispatchEvent("result");
