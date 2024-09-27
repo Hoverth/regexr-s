@@ -5,7 +5,7 @@
 :80 {
 	root /var/www/
 	encode gzip
-    handle_path /server/* {
+    handle /*.php {
     	php_fastcgi :9000 {
             root /var/www
         }

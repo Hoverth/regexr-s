@@ -7,6 +7,8 @@ services:
     depends_on:
       - phpapi
   phpapi:
-    build: server/
+    build:
+      dockerfile: server/Dockerfile
+      context: .
     ports:
       - "9000:80"
