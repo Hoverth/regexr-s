@@ -111,7 +111,7 @@ gulp.task("js", () => {
 themes.forEach(theme => {
 	gulp.task(`sass-${theme}`, () => {
 		return diffTheme(theme).then(() => {
-			return gulp.src(`./assets/themes/${theme}.css`)
+			return gulp.src(`./server/assets/themes/${theme}.css`)
 				.pipe(browser.stream());
 		})
 	});
@@ -209,7 +209,7 @@ gulp.task("copy", () => {
 	// index.html is copied in by the html task
 	return gulp.src([
 		"deploy/**",
-		"assets/**",
+		"server/assets/**",
 		"!deploy/*.map",
 		...serverCopyAndWatchGlob
 	], {base: "./"})
@@ -313,7 +313,7 @@ function diffTheme(theme) {
 	).then(() => new Promise((resolve, reject) => {
 		// diff the results, writing the results as the theme to override defaults
 		const diff = (new CSSDiff()).diff(css.default, css[theme]);
-		fs.writeFile(`./assets/themes/${theme}.css`, diff, resolve);
+		fs.writeFile(`./server/assets/themes/${theme}.css`, diff, resolve);
 	}));
 }
 

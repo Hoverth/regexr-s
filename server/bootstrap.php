@@ -40,7 +40,7 @@ ini_set('session.gc_maxlifetime', 3600*24);
 session_set_cookie_params(3600*24*60);
 
 define('__DIR__', $cwd . '/vendor');
-require "$cwd/vendor/autoload.php";
+//require "$cwd/vendor/autoload.php";
 
 register_shutdown_function("shutdown_handler");
 

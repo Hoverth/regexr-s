@@ -191,9 +191,9 @@ abstract class AbstractAction {
     }
 
     function validateEnum($enum, $key, $value, $message="value must be one of: ") {
-        if (!v::in($enum)->validate($value)) {
-            throw new APIError(ErrorCodes::API_INVALID_ENUM, $key,  $message . implode(", ", $enum));
-        }
+        //if (!v::in($enum)->validate($value)) {
+        //    throw new APIError(ErrorCodes::API_INVALID_ENUM, $key,  $message . implode(", ", $enum));
+        //}
     }
 
     function validateArray($key, $value) {
