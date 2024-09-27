@@ -34,10 +34,10 @@ export default class RefCoverage {
 			subst_bsgroup: true, // resolved to subst_group
 			escoctalo: true // resolved to escoctal
 		}
-		
+
 		for (let n in all) { if (!ref[n] && !ignore[n]) { undoc.push(n); } }
 		for (let n in ref) { if (!all[n] && !ref[n].kids) { unused.push(n); } }
-		
-		console.log("--- UNDOCUMENTED IDS ---\n"+undoc.join("\n")+"\n\n--- UNUSED DOCS? ---\n"+unused.join("\n"));
+
+		//console.log("--- UNDOCUMENTED IDS ---\n"+undoc.join("\n")+"\n\n--- UNUSED DOCS? ---\n"+unused.join("\n"));
 	}
 }

@@ -84,14 +84,14 @@ export default class RegExr extends EventDispatcher {
 	}
 
 	_localInit() {
-		console.log("local init");
+		//console.log("local init");
 		//Server.verify().then((data) => this.account.value = data);
 		new RefCoverage();
 	}
 
 // getter / setters:
 	get state() {
-		console.log(this.text.mode);
+		//console.log(this.text.mode);
 		let o = {
 			expression: this.expression.value,
 			text: this.text.value,
