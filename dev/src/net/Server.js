@@ -196,6 +196,6 @@ class ServerPromise {
 }
 
 Server.isLocal = Utils.isLocal;
-Server.useBeta = Server.isLocal || (window.location.hostname === "beta.regexr.com");
-Server.host = "https://" + (Server.useBeta ? "beta." : "") + "regexr.com"
-Server.url =  Server.host + "/server/api.php";
+//Server.useBeta = Server.isLocal || (window.location.hostname === "beta.regexr.com");
+Server.host = "" //"https://" + (Server.useBeta ? "beta." : "") + "regexr.com"
+Server.url =  Server.host + "server/api.php";
