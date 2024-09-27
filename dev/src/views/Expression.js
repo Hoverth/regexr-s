@@ -36,46 +36,46 @@ export default class Expression extends EventDispatcher {
 		this.el = el;
 		this.delim = "/";
 		this.lexer = new ExpressionLexer();
-		
+
 		this._initUI(el);
 		app.flavor.on("change", ()=> this._onFlavorChange());
 		this._onFlavorChange();
 	}
-	
+
 	set value(expression) {
 		let regex = Utils.decomposeRegEx(expression || Expression.DEFAULT_EXPRESSION, this.delim);
 		this.pattern = regex.source;
 		this.flags = regex.flags;
 	}
-	
+
 	get value() {
 		return this.editor.getValue();
 	}
-	
+
 	set pattern(pattern) {
 		let index = this.editor.getValue().lastIndexOf(this.delim);
 		this.editor.replaceRange(pattern, {line: 0, ch: 1}, {line: 0, ch: index});
 		this._deferUpdate();
 	}
-	
+
 	get pattern() {
 		return Utils.decomposeRegEx(this.editor.getValue(), this.delim).source;
 	}
-	
+
 	set flags(flags) {
 		flags = app.flavor.validateFlagsStr(flags);
 		let str = this.editor.getValue(), index = str.lastIndexOf(this.delim);
 		this.editor.replaceRange(flags, {line: 0, ch: index + 1}, {line: 0, ch: str.length }); // this doesn't work if readOnly is false.
 	}
-	
+
 	get flags() {
 		return Utils.decomposeRegEx(this.editor.getValue(), this.delim).flags;
 	}
-	
+
 	get token() {
 		return this.lexer.token;
 	}
-	
+
 	showFlags() {
 		this.flagsList.selected = this.flags.split("");
 		app.tooltip.toggle.toggleOn("flags", this.flagsEl, this.flagsBtn, true, -2);
@@ -85,11 +85,11 @@ export default class Expression extends EventDispatcher {
 		let flags = this.flags, i = flags.indexOf(s);
 		this.flags = i>=0 ? flags.replace(s, "") : flags+s;
 	}
-	
+
 	showFlavors() {
 		app.tooltip.toggle.toggleOn("flavor", this.flavorEl, this.flavorBtn, true, -2)
 	}
-	
+
 	insert(str) {
 		this.editor.replaceSelection(str, "end");
 	}
@@ -97,7 +97,7 @@ export default class Expression extends EventDispatcher {
 	selectAll() {
 		CMUtils.selectAll(this.editor);
 	}
-	
+
 // private methods:
 	_initUI(el) {
 		this.editorEl = $.query("> .editor", el);
@@ -106,29 +106,29 @@ export default class Expression extends EventDispatcher {
 			maxLength: 2500,
 			singleLine: true
 		}, "100%", "100%");
-		
+
 		editor.on("mousedown", (cm, evt)=> this._onEditorMouseDown(cm, evt));
 		editor.on("change", (cm, evt)=> this._onEditorChange(cm, evt));
 		editor.on("keydown", (cm, evt)=> this._onEditorKeyDown(cm, evt));
 		// hacky method to disable overwrite mode on expressions to avoid overwriting flags:
 		editor.toggleOverwrite = ()=>{};
-		
+
 		this.errorEl = $.query(".icon.alert", this.editorEl);
 		this.errorEl.addEventListener("mouseenter", (evt)=>this._onMouseError(evt));
 		this.errorEl.addEventListener("mouseleave", (evt)=>this._onMouseError(evt));
-		
+
 		this.highlighter = new ExpressionHighlighter(editor);
 		this.hover = new ExpressionHover(editor, this.highlighter);
-		
+
 		this._setInitialExpression();
 		this._initTooltips(el);
 		this.value = Expression.DEFAULT_EXPRESSION;
 	}
-	
+
 	_setInitialExpression() {
 		let editor = this.editor;
 		editor.setValue("/./g");
-		
+
 		// leading /
 		editor.getDoc().markText({line: 0, ch: 0}, {
 			line: 0,
@@ -139,7 +139,7 @@ export default class Expression extends EventDispatcher {
 			atomic: true,
 			inclusiveLeft: true
 		});
-		
+
 		// trailing /g
 		editor.getDoc().markText({line: 0, ch: 2}, {
 			line: 0,
@@ -152,11 +152,11 @@ export default class Expression extends EventDispatcher {
 		});
 		this._deferUpdate();
 	}
-	
+
 	_deferUpdate() {
 		Utils.defer(()=>this._update(), "Expression._update");
 	}
-	
+
 	_update() {
 		let expr = this.editor.getValue();
 		this.lexer.profile = app.flavor.profile;
@@ -166,18 +166,18 @@ export default class Expression extends EventDispatcher {
 		this.highlighter.draw(token);
 		this.dispatchEvent("change");
 	}
-	
+
 	_initTooltips(el) {
 		const template = $.template`<svg class="inline check icon"><use xlink:href="#check"></use></svg> ${"label"}`;
 		let flavorData = app.flavor.profiles.map((o)=>({id:o.id, label:o.label+" ("+(o.browser?"Browser":"Server")+")"}));
-		
+
 		this.flavorBtn = $.query("section.expression .button.flavor", el);
 		this.flavorEl = $.query("#library #tooltip-flavor");
 		this.flavorList = new List($.query("ul.list", this.flavorEl), {data:flavorData, template});
 		this.flavorList.on("change", ()=>this._onFlavorListChange());
 		this.flavorBtn.addEventListener("click", (evt) => this.showFlavors());
 		$.query(".icon.help", this.flavorEl).addEventListener("click", ()=> app.sidebar.goto("engine"));
-		
+
 		this.flagsBtn = $.query("section.expression .button.flags", el);
 		this.flagsEl = $.query("#library #tooltip-flags");
 		this.flagsList = new List($.query("ul.list", this.flagsEl), {data:[], multi:true, template});
@@ -190,26 +190,26 @@ export default class Expression extends EventDispatcher {
 	_onFlavorListChange() {
 		app.tooltip.toggle.hide("flavor");
 		app.flavor.value = this.flavorList.selected;
-		Track.page("flavor/"+this.flavorList.selected);
+		//Track.page("flavor/"+this.flavorList.selected);
 	}
-	
+
 	_onFlagListChange() {
 		let sel = this.flagsList.selected;
 		this.flags = sel ? sel.join("") : "";
-		Track.event("set_flags", "engagement", this.flags);
+		//Track.event("set_flags", "engagement", this.flags);
 	}
-	
+
 	_onFlavorChange() {
 		let flavor = app.flavor, profile = flavor.profile;
 		this.flavorList.selected = profile.id;
 		$.query("> .label", this.flavorBtn).innerText = profile.label;
-		
+
 		let supported = Expression.FLAGS.split("").filter((n)=>!!profile.flags[n]);
 		let labels = Expression.FLAG_LABELS;
 		this.flagsList.data = supported.map((n)=>({id:n, label:labels[n]}));
 		this.flags = this.flags.split("").filter((n)=>!!profile.flags[n]).join("");
 	}
-	
+
 	_onEditorMouseDown(cm, evt) {
 		// offset by half a character to make accidental clicks less likely:
 		let index = CMUtils.getCharIndexAt(cm, evt.clientX - cm.defaultCharWidth() * 0.6, evt.clientY);
@@ -217,8 +217,8 @@ export default class Expression extends EventDispatcher {
 			this.showFlags();
 		}
 	}
-		
-	
+
+
 	_onEditorChange(cm, evt) {
 		// catches pasting full expressions in.
 		// TODO: will need to be updated to work with other delimeters
@@ -230,7 +230,7 @@ export default class Expression extends EventDispatcher {
 		}
 		this.value = str;
 	}
-	
+
 	_onEditorKeyDown(cm, evt) {
 		// Ctrl or Command + D by default, will delete the expression and the flags field, Re: https://github.com/gskinner/regexr/issues/74
 		// So we just manually reset to nothing here.
@@ -239,7 +239,7 @@ export default class Expression extends EventDispatcher {
 			this.pattern = "";
 		}
 	}
-	
+
 	_onMouseError(evt) {
 		let tt = app.tooltip.hover, errs = this.lexer.errors;
 		if (evt.type === "mouseleave") { return tt.hide("error"); }
@@ -249,7 +249,7 @@ export default class Expression extends EventDispatcher {
 		let label = err && err.warning ? "WARNING" : "PARSE ERROR";
 		tt.showOn("error", "<span class='error'>"+label+":</span> "+str, this.errorEl);
 	}
-	
+
 }
 
 Expression.DEFAULT_EXPRESSION = "/([A-Z])\\w+/g";

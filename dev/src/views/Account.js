@@ -93,7 +93,7 @@ export default class Account extends EventDispatcher {
 	_signinListChange() {
 		let service = this.signinList.selected.toLowerCase();
 		$.addClass(this.tooltipEl, "wait");
-		Track.event("login", "access", service);
+		//Track.event("login", "access", service);
 		setTimeout(() => Server.login(service), 100);
 	}
 }

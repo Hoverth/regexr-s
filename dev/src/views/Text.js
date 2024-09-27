@@ -45,11 +45,11 @@ export default class Text extends EventDispatcher {
 		app.on("result", () => this._setResult(app.result));
 		app.theme.on("change", () => this._handleThemeChange());
 	}
-	
+
 	set value(val) {
 		this.editor.setValue(val || this.defaultText);
 	}
-	
+
 	get value() {
 		return this.editor.getValue();
 	}
@@ -77,17 +77,17 @@ export default class Text extends EventDispatcher {
 	get mode() {
 		return this.modeList.selected;
 	}
-	
+
 	get selectedMatch() {
 		let cm = this.editor;
 		return this.getMatchAt(cm.indexFromPos(cm.getCursor()), true);
 	}
-	
+
 	getMatchValue(match) {
 		// this also works for groups.
 		return match ? this.value.substr(match.i, match.l) : null;
 	}
-	
+
 	getMatchAt(index, inclusive) {
 		// also used by TextHover
 		let match, offset=(inclusive ? -1 : 0), matches=this._result && this._result.matches;
@@ -109,7 +109,7 @@ export default class Text extends EventDispatcher {
 			type: "any"
 		}
 	}
-	
+
 // private methods:
 	_initUI(el) {
 		this.resultEl = $.query("> header .result", el);
@@ -121,16 +121,16 @@ export default class Text extends EventDispatcher {
 		this.modeList = new List(this.modeListEl, {data});
 		this.modeList.on("change", ()=> this._handleModeChange());
 		this.modeList.selected = "text";
-		
+
 		let textEl = $.query(".editor > .pad", el);
 		this.defaultText = $.query("textarea", textEl).value;
 		let editor = this.editor = CMUtils.create($.empty(textEl), {lineWrapping: true}, "100%", "100%");
 		editor.setValue(this.defaultText);
-		
+
 		editor.on("change", ()=> this._change());
 		editor.on("scroll", ()=> this._update());
 		editor.on("cursorActivity", () => this._updateSelected());
-		
+
 		let detector = $.create("iframe", "resizedetector", null, textEl), win = detector.contentWindow;
 		let canvas = this.canvas = $.create("canvas", "highlights", null, textEl);
 		textEl.appendChild(editor.display.wrapper); // move the editor on top of the iframe & canvas.
@@ -141,7 +141,7 @@ export default class Text extends EventDispatcher {
 			Utils.defer(() => this._handleResize(w, h), "text_resize", 250);
 		};
 		win.onresize();
-		
+
 		this.highlighter = new TextHighlighter(editor, canvas, $.getCSSValue("match", "color"), $.getCSSValue("selected-stroke", "color"));
 		this.hover = new TextHover(editor, this.highlighter);
 	}
@@ -157,9 +157,9 @@ export default class Text extends EventDispatcher {
 		if (this.mode === "text") { this.editor.refresh(); }
 		else { $.addClass(this.el, "tests-viewed"); }
 
-		Track.page("mode/"+this.mode);
+		//Track.page("mode/"+this.mode);
 	}
-	
+
 	_setResult(val) {
 		this._result = val;
 		this._testMatches = null;
@@ -174,11 +174,11 @@ export default class Text extends EventDispatcher {
 			this._deferUpdate();
 		}
 	}
-	
+
 	_deferUpdate() {
 		Utils.defer(()=>this._update(), "Text._update");
 	}
-	
+
 	_update() {
 		let result = this._result, matches = result && result.matches;
 		if (result && result.mode === "tests") {
@@ -187,10 +187,10 @@ export default class Text extends EventDispatcher {
 			this.hover.matches = this.highlighter.matches = matches;
 		}
 	}
-	
+
 	_updateResult() {
 		let result = this._result, matches=result&&result.matches, l=matches&&matches.length, text;
-		
+
 		if (l && result && !result.error) {
 			text = l + " match" + (l>1?"es":"") + (this._emptyCount?"*":"");
 		} else if (!result || !result.error) {
@@ -213,14 +213,14 @@ export default class Text extends EventDispatcher {
 		el.innerHTML = text;
 		if (result.time != null) {  el.innerHTML += "<em> ("+parseFloat(result.time).toFixed(1)+"ms)</em>"; }
 	}
-	
+
 	_updateSelected() {
 		let match = this.selectedMatch;
 		if (this.highlighter.selectedMatch === match) { return; }
 		this.highlighter.selectedMatch = match;
 		this.dispatchEvent("select");
 	}
-	
+
 	_change() {
 		this.dispatchEvent("change");
 	}
@@ -232,7 +232,7 @@ export default class Text extends EventDispatcher {
 		// keeps it from causing scrollbars:
 		canvas.width = canvas.height = 1;
 	}
-	
+
 	_mouseResult(evt) {
 		let tt = app.tooltip.hover, res=this._result, err = res&&res.error, str="";
 		if (evt.type === "mouseleave") { return tt.hide("result"); }
@@ -259,7 +259,7 @@ export default class Text extends EventDispatcher {
 				str += "<hr>Insertion point: line "+pos.line+", col "+pos.ch+", index "+i0;
 				str += (range>0 ? " ("+range+" character"+(range===1?"":"s")+" selected)" : "");
 			}
-			
+
 		}
 		tt.showOn("result", str, this.resultEl, false, -2);
 	}
@@ -272,7 +272,7 @@ export default class Text extends EventDispatcher {
 	_errorText(err) {
 		return err.message || app.reference.getError(err);
 	}
-	
+
 	_handleResize(w, h) {
 		let canvas = this.canvas, style=canvas.style;
 		style.visibility = style.opacity = "";
@@ -316,7 +316,7 @@ export default class Text extends EventDispatcher {
 
 		let data = this._tests, l=data.length;
 		if (!data || !l) { return this._showResult("No tests."); }
-		
+
 		let matches = result.matches.reduce((o, t) => { o[t.id] = t; return o; }, {}), fails=0;
 		for (let i=0; i<l; i++) {
 			let test = data[i], match=matches[test.id], pass=false, el=this.testList.getEl(test.id);
@@ -340,7 +340,7 @@ export default class Text extends EventDispatcher {
 		} else {
 			this._showResult("PASSED", "pass");
 		}
-		
+
 		this._updateSelTest();
 	}
 
