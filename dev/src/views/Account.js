@@ -55,16 +55,16 @@ export default class Account extends EventDispatcher {
 
 // private methods:
 	_initUI() {
-		let template = (o) => '<svg class="icon inline"><use xlink:href="#'+o.toLowerCase()+'"></use></svg>'+o;
-		this.signinBtn = $.query(".header .signin");
-		this.tooltipEl = $.query("#library > #tooltip-signin");
-		this.signinEl = $.query(".signin", this.tooltipEl);
-		this.signoutEl = $.query(".signout", this.tooltipEl);
-		$.query(".signoutbtn", this.signoutEl).addEventListener("click", (evt) => this._doSignout());
-		this.signinBtn.addEventListener("click", (evt) => this.showTooltip());
-		$.query(".icon.help", this.signinEl).addEventListener("click", ()=> app.sidebar.goto("signin"));
-		this.signinList = new List($.query("ul.list", this.signinEl), {data:["GitHub", "Google"], template});
-		this.signinList.on("change", ()=>this._signinListChange());
+		//let template = (o) => '<svg class="icon inline"><use xlink:href="#'+o.toLowerCase()+'"></use></svg>'+o;
+		//this.signinBtn = $.query(".header .signin");
+		//this.tooltipEl = $.query("#library > #tooltip-signin");
+		//this.signinEl = $.query(".signin", this.tooltipEl);
+		//this.signoutEl = $.query(".signout", this.tooltipEl);
+		//$.query(".signoutbtn", this.signoutEl).addEventListener("click", (evt) => this._doSignout());
+		//this.signinBtn.addEventListener("click", (evt) => this.showTooltip());
+		//$.query(".icon.help", this.signinEl).addEventListener("click", ()=> app.sidebar.goto("signin"));
+		//this.signinList = new List($.query("ul.list", this.signinEl), {data:["GitHub", "Google"], template});
+		//this.signinList.on("change", ()=>this._signinListChange());
 	}
 
 	_updateUI() {

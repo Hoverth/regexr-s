@@ -29,7 +29,7 @@ import Expression from "./views/Expression";
 import Text from "./views/Text";
 import Tools from "./views/Tools";
 import Sidebar from "./views/Sidebar";
-import Account from "./views/Account";
+//import Account from "./views/Account";
 import Theme from "./views/Theme";
 
 import Reference from "./docs/Reference";
@@ -42,18 +42,18 @@ import Prefs from "./helpers/Prefs";
 export default class RegExr extends EventDispatcher {
 	constructor () { super(); }
 
-	init(state, account, config={}) {
+	init(state, /*account,*/ config={}) {
 		this.prefs = new Prefs();
 		this.flavor = new Flavor();
 		this.reference = new Reference(reference_content, this.flavor, config);
 		this._migrateFavorites();
 		this._initUI();
 
-		this.account.value = account;
+		//this.account.value = account;
 		if (state === false) {
 			this._localInit();
-		} else if (this.account.authenticated && !state) {
-			this.newDoc(false);
+		//} else if (this.account.authenticated && !state) {
+		//	this.newDoc(false);
 		} else {
 			this.state = state;
 		}
@@ -101,7 +101,7 @@ export default class RegExr extends EventDispatcher {
 			mode: this.text.mode,
 		};
 		// copy share values onto the pattern object:
-		return Utils.copy(this.share.value, o);
+		//return Utils.copy(this.share.value, o);
 	}
 
 	set state(o) {
@@ -112,17 +112,17 @@ export default class RegExr extends EventDispatcher {
 		this.text.tests = o.tests;
 		this.text.mode = o.mode;
 		this.tools.value = o.tool;
-		this.share.pattern = o;
+		//this.share.pattern = o;
 		this.resetUnsaved();
 	}
 
 	get hash() {
-		let share = this.share;
+		//let share = this.share;
 		return Utils.getHashCode(
 			this.expression.value+"\t"
 			+ this.text.value+"\t"
 			+ this.flavor.value+"\t"
-			+ share.author+"\t" + share.name+"\t" + share.description+"\t" + share.keywords+"\t"
+			//+ share.author+"\t" + share.name+"\t" + share.description+"\t" + share.keywords+"\t"
 			+ JSON.stringify(this.text.tests)+"\t"
 			//+ this.tools.value.input+"\t"
 			//+ this.tools.value.id+"\t"
@@ -179,16 +179,16 @@ export default class RegExr extends EventDispatcher {
 		this.text = new Text($.query("> section.text", el));
 		this.tools = new Tools($.query("> section.tools", el));
 
-		this.account = new Account();
-		this.sidebar = new Sidebar($.query(".app > .sidebar", this.el));
-		this.share = this.sidebar.share;
+		//this.account = new Account();
+		//this.sidebar = new Sidebar($.query(".app > .sidebar", this.el));
+		//this.share = this.sidebar.share;
 
 		this.expression.on("change", ()=> this._change());
 		this.text.on("change", ()=> this._change());
 		this.text.on("modechange", ()=> this._modeChange());
 		this.flavor.on("change", ()=> this._change());
 		this.tools.on("change", ()=> this._change());
-		this.share.on("change", ()=> this._change());
+		//this.share.on("change", ()=> this._change());
 	}
 
 	_migrateFavorites() {

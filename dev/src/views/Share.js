@@ -35,7 +35,7 @@ export default class Share extends EventDispatcher {
 		this._initUI();
 		app.on("change", () => this._handleAppChange());
 		app.on("load", () => this._handleAppLoad());
-		app.account.on("change", () => this._handleAccountChange());
+		//app.account.on("change", () => this._handleAccountChange());
 	}
 
 // public methods:
@@ -135,7 +135,7 @@ export default class Share extends EventDispatcher {
 		this.authorFld.addEventListener("input", () => this._handleChange());
 		this.descriptionFld.addEventListener("input", () => this._handleChange());
 		this.keywordsFld.addEventListener("input", () => this._handleChange());
-		
+
 		/// set up community:
 		let comInputsEl = $.query(".inputs", comEl)
 		$.query(".button.cancel", comEl).addEventListener("click", ()=> app.sidebar.goto("share"));
@@ -153,13 +153,13 @@ export default class Share extends EventDispatcher {
 	_updateUI() {
 		let o = this._pattern, text;
 		let isChanged = this._isChanged(), isNew = this._isNew(), isOwned = this._isOwned();
-		
+
 		$.toggleClass([this.forkBtn, this.hForkBtn], "disabled", !this._canFork());
 		$.toggleClass(this.saveBtn, "disabled", !this._canSave());
 
 		$.toggleClass(this.hSaveBtn, "disabled", !this._canSave() && isOwned);
 		$.query(".action",this.hSaveBtn).innerText = isOwned ? "Save" : "Fork";
-		
+
 		if (!isOwned) { text = "This pattern was created by '"+(o.author||"[anonymous]")+"'."; }
 		else if (!isChanged) { text = "No unsaved changes." }
 		else if (isNew) { text = "Save will create a shareable public link."; }
@@ -167,7 +167,7 @@ export default class Share extends EventDispatcher {
 
 		if (!isOwned && !isChanged) { text += " Fork to create your own copy."; }
 		else if (!isNew) { text += " Fork will create a new copy" + (isChanged ? " with your changes." : "."); }
-		
+
 		this._setSaveText(text);
 
 		this._linkRow.pattern = this._pattern.id && this._pattern;
@@ -180,7 +180,7 @@ export default class Share extends EventDispatcher {
 		$.toggleClass(this._privateRow, "active", o.access === "private");
 		$.toggleClass(this._favoritesRow, "active", !!o.favorite);
 	}
-	
+
 	_isNew() {
 		return !this._pattern.id;
 	}
@@ -205,7 +205,7 @@ export default class Share extends EventDispatcher {
 	_pushHistory(pattern) {
 		let history = window.history, url = Utils.getPatternURL(pattern);
 		let title = "RegExr: "+ (pattern.name || "Learn, Build, & Test RegEx");
-		
+
 		if (history.state && (pattern.id === history.state.id)) {
 			history.replaceState(pattern, title, url);
 		} else {
@@ -255,12 +255,12 @@ export default class Share extends EventDispatcher {
 			this._linkRow.showMessage("<b>Saved.</b> New share link created. Click to copy to clipboard.");
 		}
 	}
-	
+
 	_handleSaveErr(err) {
 		$.removeClass($.query(".buttons", this.saveEl), "wait");
 		this.saveStatus.error(this._getErrMsg(err));
 	}
-	
+
 	_doNew() {
 		app.newDoc();
 	}
@@ -280,7 +280,7 @@ export default class Share extends EventDispatcher {
 			this._updateUI();
 		}
 	}
-	
+
 	_doFavorite() {
 		let o = this._pattern;
 		this._favoritesStatus.distract();
@@ -288,7 +288,7 @@ export default class Share extends EventDispatcher {
 			.then((data) => this._handleFavorite(data))
 			.catch((err) => this._handleErr(err, this._favoritesStatus));
 	}
-	
+
 	_handleFavorite(data) {
 		if (data.id === this._pattern.id) {
 			this._pattern.favorite = data.favorite;
@@ -363,12 +363,12 @@ export default class Share extends EventDispatcher {
 		this._updateUI();
 	}
 
-	_handleAccountChange() {
+/*	_handleAccountChange() {
 		let acc = app.account, rowEl = $.query(".signin.row", this.mainEl);
 		if (!this.authorFld.value) { this.authorFld.value = acc.author || acc.username; }
 		$.toggleClass(rowEl, "authenticated", acc.authenticated);
 		$.query(".username", rowEl).innerText = acc.username;
-	}
+	}*/
 
 	_handleAppLoad() {
 		$.toggleClass($.query(".save .actions", this.mainEl), "disabled");

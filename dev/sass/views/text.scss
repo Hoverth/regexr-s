@@ -8,19 +8,6 @@
 			font-size: 1rem;
 			padding-top: $pad*0.275;
 			padding-bottom: $pad*0.275;
-
-			&:last-child::after {
-				transition: opacity 1s;
-				font-size: 0.625rem;
-				padding: 0.25em 0.5em;
-				display: inline-block;
-				position: absolute;
-				color: $doc-white;
-				background: $theme-color;
-				letter-spacing: 0.075em;
-				transform: translate(0.25rem, -0.125rem);
-				content: "NEW";
-			}
 		}
 
 		.button.add {
@@ -29,7 +16,7 @@
 
 		.result {
 			font-weight: bold;
-			
+
 			&.error {
 				background: $error-color;
 				color: $doc-lightest;
@@ -38,17 +25,17 @@
 					background: $warning-color;
 				}
 			}
-			
+
 			&.pass {
 				background: $pass-color;
 				color: $doc-lightest;
 			}
-			
+
 			&.fail {
 				background: $fail-color;
 				color: $doc-lightest;
 			}
-			
+
 			em {
 				font-style: normal;
 				font-weight: normal;
@@ -68,18 +55,18 @@
 		height: 100%;
 		width: 100%;
 		padding: $pad 0 $pad $pad;
-		
+
 		> .pad {
 			box-sizing: border-box;
 			position: relative;
 			overflow: hidden;
 			width: 100%;
 			flex: 1;
-			
+
 			> .CodeMirror {
 				color: $doc-black;
 			}
-			
+
 			> iframe.resizedetector {
 				opacity: 0;
 				//visibility: hidden; // Firefox doesn't resize it if it's hidden!
@@ -89,12 +76,12 @@
 				height: 100%;
 				position: absolute;
 			}
-			
+
 			> canvas.highlights {
 				transition: opacity $transition-t;
 				position: absolute;
 			}
-		
+
 		}
 	}
 
@@ -170,7 +157,7 @@
 					.icon.delete {
 						@extend %link;
 						color: $doc-light;
-		
+
 						&:hover {
 							color: $error-color !important;
 						}
@@ -273,7 +260,7 @@
 		display:inline-block;
 	}
 
-	
+
 	> article > .editor {
 		display: none;
 	}
@@ -290,7 +277,7 @@
 		font-style: italic;
 		margin-top: $pad*0.75;
 	}
-	
+
 	i {
 		@extend %ellipsis;
 	}
