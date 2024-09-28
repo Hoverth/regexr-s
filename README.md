@@ -30,5 +30,5 @@ If you would like to contribute to RegExr-S please send pull requests!
 Please make sure they are well formatted and follow the style specified out in the existing files.
 
 ## License
-This version of RegExr is licensed under GPL v3.
+RegExr-S is licensed under GPL v3.
 
