@@ -3,7 +3,7 @@
 RegExr-S
 ======
 
-##### This is a fork [regexr](https://github.com/gskinner/regexr) [RegExr.com](https://regexr.com)) by Grant Skinner
+##### This is a fork of [regexr](https://github.com/gskinner/regexr) ([RegExr.com](https://regexr.com)) by Grant Skinner
 
 ## About
 RegExr-S is a fork of RegExr, with modifications made to make it easily self-hostable and more minimal.
