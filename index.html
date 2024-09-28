@@ -19,7 +19,7 @@
 		onmessage=function(e){postMessage("onload");var t,s,n,a=e.data,i=a.text,d=a.tests,l=a.mode,r=new RegExp(a.pattern,a.flags),o=[];if("tests"===l)for(var g=0,x=d.length;g<x;g++){let e=d[g];i=e.text,r.lastIndex=0,t=r.exec(i),o[g]=t?{i:t.index,l:t[0].length,id:e.id}:{id:e.id}}else for(;t=r.exec(i);){s===r.lastIndex&&(n={id:"infinite",warning:!0},++r.lastIndex),s=r.lastIndex;var f=t.reduce(function(e,t,s){return(0===s||e.push({s:t}))&&e},[]);if(o.push({i:t.index,l:t[0].length,groups:f}),!r.global)break}postMessage({error:n,matches:o,mode:l})};
 	</script>
 
-	<link href="/assets/main.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/assets/fonts.css">
 	<link rel="stylesheet" type="text/css" href="<%= css_file %>">
 
 	<!-- basic meta tags -->
@@ -42,21 +42,21 @@
 	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
 	<meta name="theme-color" content="#70b0e0">
 
-	<!-- social -->
+	<!-- social
 	<meta property="og:image" content="https://regexr.com/assets/card.png"/>
 	<meta property="og:image:width" content="1200"/>
 	<meta property="og:image:height" content="630"/>
-    <meta property="og:title" content="RegExr: Learn, Build, & Test RegEx"/>
-    <meta property="og:description" content="RegExr is an online tool to learn, build, & test Regular Expressions (RegEx / RegExp)."/>
-    <meta property="og:url" content="https://regexr.com/"/>
-    <meta property="og:site_name" content="RegExr"/>
+  <meta property="og:title" content="RegExr: Learn, Build, & Test RegEx"/>
+  <meta property="og:description" content="RegExr is an online tool to learn, build, & test Regular Expressions (RegEx / RegExp)."/>
+  <meta property="og:url" content="https://regexr.com/"/>
+  <meta property="og:site_name" content="RegExr"/>
 
 	<meta name="twitter:card" content="summary_large_image"/>
 	<meta name="twitter:site:id" content="@gskinner"/>
 	<meta name="twitter:title" content="RegExr: Learn, Build, & Test RegEx"/>
 	<meta name="twitter:description" content="RegExr is an online tool to learn, build, & test Regular Expressions (RegEx / RegExp)."/>
 	<meta name="twitter:image" content="https://regexr.com/assets/card.png"/>
-	<meta name="twitter:url" content="https://regexr.com/" />
+	<meta name="twitter:url" content="https://regexr.com/" />-->
 </head>
 
 <body>
