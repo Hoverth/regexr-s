@@ -10,7 +10,7 @@
             root /var/www
         }
     }
-    handle /assets/* {
+    handle /assets/*.* {
         file_server
     }
     reverse_proxy regexr:3000
