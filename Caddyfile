@@ -3,8 +3,7 @@
 }
 
 :80 {
-	root /var/www/
-	encode gzip
+	  root /var/www/
     @php path /*.php /server/*.php
     handle @php {
     	php_fastcgi :9000 {
