@@ -5,15 +5,14 @@
 :80 {
 	root /var/www/
 	encode gzip
-    handle /*.php {
+    @php path /*.php /server/*.php
+    handle @php {
     	php_fastcgi :9000 {
             root /var/www
         }
     }
 
-    @assets {
-      path /assets/*.* /assets/*/*.*
-    }
+    @assets path /assets/*.* /assets/*/*.*
     handle @assets {
         file_server
     }
